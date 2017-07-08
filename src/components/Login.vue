@@ -78,6 +78,7 @@ div.form-group label {
   padding: 5px;
   margin-top: 10px;
    background-color: #4CAF50;
+   border-top-left-radius: 15px;
    border-top-right-radius: 15px;
    border-bottom-right-radius: 15px;
    border-bottom-left-radius: 15px;
