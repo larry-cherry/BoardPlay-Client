@@ -6,8 +6,15 @@
 </template>
 
 <script>
+// import Hello from './components/Hello';
+import 'bootstrap/dist/css/bootstrap.css';
+import Login from './components/Login';
+
 export default {
   name: 'app',
+  components: {
+    Login,
+  },
 };
 </script>
 

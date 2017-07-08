@@ -5,6 +5,7 @@
       {{error}}
     </div>
     <form v-on:submit="login">
+    <form>
       <div class="form-group">
         <label for="username">Username</label>
         <input v-model="username" name="username" type="text" />
