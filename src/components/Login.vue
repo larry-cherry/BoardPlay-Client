@@ -1,20 +1,18 @@
 <template>
-  <div id="login">
+  <div id="login" class = "container">
     <h1>Login</h1>
-    <form>
+    <form id="form">
       <div class="form-group">
         <label for="username">Username</label>
-        <input v-model="username" name="username" type="text" />
+        <input v-model="username"  class="inp" name="username" type="text" placeholder= "Enter your username"/>
       </div>
-      </br>
       <div class="form-group">
         <label for="password">Password</label>
-        <input v-model="password" name="password" type="password" />
+        <input v-model="password" class="inp" name="password" type="password" placeholder="Enter your password" />
       </div>
-      </br>
-      <button v-on:click="login()">Login</button>
-    </form>
 
+        <button class= "btn-submit" v-on:click="login()">Login</button>
+    </form>
   </div>
 </template>
 
@@ -43,7 +41,7 @@ div#login form {
   flex-direction: column;
 }
 div#login h1 {
-  padding-bottom: 2em;
+  padding-bottom: .2em;
   font-size: 4em;
 }
 div#login form {
@@ -51,5 +49,46 @@ div#login form {
 }
 div.form-group label {
   display: block;
+  padding-bottom: 5px;
+  font-size: 35px;
 }
+.inp{
+  border: 2px solid black;
+  margin: auto;
+  width: 100%;
+  padding: 0px;
+  text-align: center;
+  height: 65px;
+  font-size: 40px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    height: 50%;
+    overflow: hidden;
+    display:block;
+}
+.btn-submit{
+  border: 2px solid black;
+  padding: 5px;
+  margin-top: 10px;
+   background-color: #4CAF50;
+   border-top-right-radius: 15px;
+   border-bottom-right-radius: 15px;
+   border-bottom-left-radius: 15px;
+
+}
+form#form {
+  width: 550px;
+  height: 450px;
+  margin: auto;
+  position: relative;
+
+}
+
 </style>
