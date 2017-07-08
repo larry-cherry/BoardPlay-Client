@@ -5,7 +5,6 @@
       {{error}}
     </div>
     <form v-on:submit="login">
-    <form>
       <div class="form-group">
         <label for="username">Username</label>
         <input v-model="username" name="username" type="text" />
@@ -18,11 +17,16 @@
       </br>
       <button>Login</button>
     </form>
-
+    <div v-if="loading" class="loading">
+      <i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
   </div>
 </template>
 
 <script>
+import $ from 'jquery';
+
 export default {
   name: 'login',
   data() {
@@ -30,11 +34,11 @@ export default {
       username: '',
       password: '',
       error: '',
+      loading: false,
     };
   },
   methods: {
     login(e) {
-      alert(`Logging in with ${this.username} and ${this.password}`);
       e.preventDefault();
       const loginData = new FormData();
       loginData.append('username', this.username);
@@ -43,8 +47,16 @@ export default {
         method: 'POST',
         body: loginData,
       };
+      this.loading = true;
+      $('div#app *:not(.loading)').css('opacity', '.4');
       fetch('/users/login/', init).then((f) => {
-        console.log(f);
+        if(f.code === 200) {
+          // Success
+        } else {
+          // Failed
+          this.error = 'Invalid username/password';
+          $('div#app *:not(.loading)').css('opacity', '1');
+        }
       }, () => {
         this.error = 'Error processing login';
       });
@@ -71,5 +83,14 @@ div.form-group label {
 div.error {
   color: red;
   font-size: 2em;
+}
+div.loading {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>

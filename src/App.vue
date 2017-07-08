@@ -8,6 +8,7 @@
 <script>
 // import Hello from './components/Hello';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.css';
 import Login from './components/Login';
 
 export default {
