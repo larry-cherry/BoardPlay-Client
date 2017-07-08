@@ -1,7 +1,15 @@
 <template>
   <div id="login" class = "container">
     <h1>Login</h1>
+<<<<<<< HEAD
     <form id="form">
+=======
+    <div v-if="error" class="error">
+      {{error}}
+    </div>
+    <form v-on:submit="login">
+    <form>
+>>>>>>> abae7a87dfeea17e36b6834a6ce44d6c0ee82c18
       <div class="form-group">
         <label for="username">Username</label>
         <input v-model="username"  class="inp" name="username" type="text" placeholder= "Enter your username"/>
@@ -10,6 +18,12 @@
         <label for="password">Password</label>
         <input v-model="password" class="inp" name="password" type="password" placeholder="Enter your password" />
       </div>
+<<<<<<< HEAD
+=======
+      </br>
+      <button>Login</button>
+    </form>
+>>>>>>> abae7a87dfeea17e36b6834a6ce44d6c0ee82c18
 
         <button class= "btn-submit" v-on:click="login()">Login</button>
     </form>
@@ -23,13 +37,25 @@ export default {
     return {
       username: '',
       password: '',
+      error: '',
     };
   },
   methods: {
-    login: (e) => {
-      e.preventDefault();
-      console.log('here');
+    login(e) {
       alert(`Logging in with ${this.username} and ${this.password}`);
+      e.preventDefault();
+      const loginData = new FormData();
+      loginData.append('username', this.username);
+      loginData.append('password', this.password);
+      const init = {
+        method: 'POST',
+        body: loginData,
+      };
+      fetch('/users/login/', init).then((f) => {
+        console.log(f);
+      }, () => {
+        this.error = 'Error processing login';
+      });
     },
   },
 };
@@ -65,6 +91,7 @@ div.form-group label {
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
 }
+<<<<<<< HEAD
 .center {
     margin: auto;
     width: 50%;
@@ -92,4 +119,10 @@ form#form {
 
 }
 
+=======
+div.error {
+  color: red;
+  font-size: 2em;
+}
+>>>>>>> abae7a87dfeea17e36b6834a6ce44d6c0ee82c18
 </style>
