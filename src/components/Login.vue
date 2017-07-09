@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import APIURL from '../main';
 import auth from '../auth';
 
 export default {
@@ -55,7 +54,8 @@ export default {
         username: this.username,
         password: this.password,
       };
-      auth.login(credentials, () => { this.loading = true; })
+      this.loading = true;
+      auth.login(credentials)
         .then((body) => {
           localStorage.setItem('accessToken', body.id);
           localStorage.setItem('userId', body.userId);
@@ -69,32 +69,27 @@ export default {
       e.preventDefault();
       if (this.registering) {
         // do something
-        const init = {
-          method: 'POST',
-          body: JSON.stringify({
-            username: this.username,
-            password: this.password,
-            email: this.email,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        const credentials = {
+          username: this.username,
+          password: this.password,
+          email: this.email,
         };
-        fetch(`${APIURL}/users`, init).then((res) => {
-          if (res.status === 200) {
-            // Success
-            return res.json();
-          }
-          // Failed
-          this.error = 'Failed to create account';
-          this.loading = false;
-          return false;
-        }, () => {
-          this.error = 'Error processing registration';
-        }).then((body) => {
-          localStorage.setItem('userId', body.userId);
-          this.$router.push('/');
-        });
+        this.loading = true;
+        auth.register(credentials)
+          .then(() => {
+            auth.login(credentials)
+              .then((body) => {
+                localStorage.setItem('accessToken', body.id);
+                localStorage.setItem('userId', body.userId);
+                this.$router.push('/games');
+              }, (err) => {
+                this.error = err;
+                this.loading = false;
+              });
+          }, (err) => {
+            this.error = err.error.message;
+            this.loading = false;
+          });
       } else {
         this.registering = true;
       }
@@ -107,12 +102,16 @@ export default {
       return (this.cpassword !== this.password) && this.cpassword && this.password;
     },
   },
-  route: {
-    beforeEach(to, from, next) {
-      // Check auth here
+  beforeRouteEnter(to, from, next) {
+    // Check auth here
+    if (auth.checkAuth()) {
+      console.log('authed');
+      next('/games');
+    } else {
+      console.log('not authed');
       next();
-      return true;
-    },
+    }
+    return true;
   },
 };
 </script>
