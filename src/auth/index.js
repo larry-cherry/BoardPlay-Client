@@ -1,9 +1,7 @@
-import { router } from '../main';
-
 // URL and endpoint constants
-const API_URL = 'http://localhost:3001';
-const LOGIN_URL = `${API_URL}/sessions/create/`;
-const SIGNUP_URL = `${API_URL}/users/`;
+import APIURL from '../main';
+
+// TODO: Implement register, logout, and checking auth
 
 export default {
 
@@ -12,37 +10,41 @@ export default {
     authenticated: false,
   },
 
-  // Send a request to the login URL and save the returned JWT
-  login(context, creds, redirect) {
-    context.$http.post(LOGIN_URL, creds, (data) => {
-      localStorage.setItem('id_token', data.id_token);
-      localStorage.setItem('access_token', data.access_token);
-
-      this.user.authenticated = true;
-
-      // Redirect to a specified route
-      if (redirect) {
-        router.go(redirect);
-      }
-    }).error((err) => {
-      context.error = err;
+  // Send a request to the login URL and return a promise with the body
+  login(credentials, loadingcallback) {
+    return new Promise((resolve, reject) => {
+      const init = {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+        headers: { 'Content-Type': 'application/json' },
+      };
+      loadingcallback();
+      fetch(`${APIURL}/users/login/`, init)
+        .then((res) => {
+          if (res.status === 200) {
+            // Success
+            return res.json();
+          }
+          return reject('Invalid username/password');
+        }, reject)
+        .then((body) => {
+          resolve(body);
+        }, reject);
     });
   },
 
-  signup(context, creds, redirect) {
-    context.$http.post(SIGNUP_URL, creds, (data) => {
-      localStorage.setItem('id_token', data.id_token);
-      localStorage.setItem('access_token', data.access_token);
-
-      this.user.authenticated = true;
-
-      if (redirect) {
-        router.go(redirect);
-      }
-    }).error((err) => {
-      context.error = err;
-    })
-  },
+  // signup(context, creds, redirect) {
+  //   context.$http.post(SIGNUP_URL, creds, (data) => {
+  //     localStorage.setItem('id_token', data.id_token);
+  //     localStorage.setItem('access_token', data.access_token);
+  //     this.user.authenticated = true;
+  //     if (redirect) {
+  //       router.go(redirect);
+  //     }
+  //   }).error((err) => {
+  //     context.error = err;
+  //   })
+  // },
 
   // To log out, we just need to remove the token
   logout() {

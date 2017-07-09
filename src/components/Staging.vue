@@ -1,17 +1,22 @@
   <template>
 <div id="lobby" class="container">
-  <table v-if: class="table table-hover">
-    <thead>
-      <tr>
-        Players
-      </tr>
-    </thead>
-    <tbody>
-    <tr v-for="player in players">
-      <td> {{ player.name }} </td>
-    </tr>
-    </tbody>
-  </table>
+  <div v-if="stage === 0">
+    <h3>Players</h3>
+    <ul>
+      <li v-for="player in players">
+        {{player.name}}
+      </li>
+    </ul>
+  </div>
+  <div v-else-if="stage === 1">
+
+    <ul class="list-group">
+      <li v-for="location in locations" class="list-group-item">
+        {{ location }}
+      </li>
+      </ul>
+      <button type="button" class="btn btn-default navbar-btn">Leave Game</button>
+  </div>
 </div>
 </template>
 
@@ -20,7 +25,7 @@ export default {
   name: 'Lobby',
   data() {
     return {
-      stage: '',
+      stage: 1,
       players: [{
         name: 'Vasu',
       },
@@ -30,6 +35,9 @@ export default {
       {
         name: 'Larry',
       }],
+      currentLocation: 'Library',
+      locations: ['A', 'B', 'C'],
+      role: 'spy',
     };
   },
   methods: {},
@@ -42,5 +50,16 @@ export default {
 </script>
 
 <style>
+
+ul {
+ list-style: none;
+ margin: 0;
+ padding: 0;
+}
+
+li {
+  color: #000000;
+  font-size: 13pt;
+}
 
 </style>

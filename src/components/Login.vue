@@ -1,30 +1,39 @@
 <template>
   <div id="login" class="container">
-    <h1>Login</h1>
-    <div v-if="error" class="error">
+    <h1 v-bind:class="{ load: loading }">Login</h1>
+    <div v-bind:class="{ load: loading }" v-if="error" class="error">
       {{error}}
     </div>
-    <form v-on:submit="login">
+    <form v-bind:class="{ load: loading }" v-on:submit="login">
       <div class="form-group username">
         <label for="username">Username</label>
-        <input v-model="username"  class="inp" name="username" type="text" placeholder= "Enter your username"/>
+        <input v-model="username" name="username" type="text" placeholder= "Enter your username"/>
+      </div>
+      <div v-if="registering" class="form-group email">
+        <label for="email">Email</label>
+        <input v-model="email" v-bind:class="{ invalid: checkInvalidEmail() }" name="email" type="email" placeholder= "Enter your email"/>
       </div>
       <div class="form-group password">
         <label for="password">Password</label>
-        <input v-model="password" class="inp" name="password" type="password" placeholder="Enter your password" />
+        <input v-model="password" v-bind:class="{ invalid: checkPasswordNotSame() }" name="password" type="password" placeholder="Enter your password" />
       </div>
-      <button class="btn-submit" type="submit">Login</button>
+      <div v-if="registering" class="form-group confirmpassword">
+        <label for="password">Confirm Password</label>
+        <input v-model="cpassword" v-bind:class="{ invalid: checkPasswordNotSame() }" name="confirmpassword" type="password" placeholder="Re-enter your password" />
+      </div>
+      <button class="btn-submit" v-if="!registering" type="submit">Login</button>
       <button class="btn-submit" v-on:click="register">Register</button>
     </form>
     <div v-if="loading" class="loading">
-      <i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>
+      <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
       <span class="sr-only">Loading...</span>
     </div>
   </div>
 </template>
 
 <script>
-import $ from 'jquery';
+import APIURL from '../main';
+import auth from '../auth';
 
 export default {
   name: 'login',
@@ -34,38 +43,75 @@ export default {
       password: '',
       error: '',
       loading: false,
+      registering: false,
+      email: '',
+      cpassword: '',
     };
   },
   methods: {
     login(e) {
       e.preventDefault();
-      const loginData = new FormData();
-      loginData.append('username', this.username);
-      loginData.append('password', this.password);
-      const init = {
-        method: 'POST',
-        body: loginData,
+      const credentials = {
+        username: this.username,
+        password: this.password,
       };
-      this.loading = true;
-      $('div#app *:not(.loading)').css('opacity', '.4');
-      fetch('/users/login/', init).then((f) => {
-        if (f.code === 200) {
-          // Success
-          localStorage.set('loginToken', '');
-          this.$router.push('Games');
-        } else {
-          // Failed
-          this.error = 'Invalid username/password';
-          $('div#app *:not(.loading)').css('opacity', '1');
+      auth.login(credentials, () => { this.loading = true; })
+        .then((body) => {
+          localStorage.setItem('accessToken', body.id);
+          localStorage.setItem('userId', body.userId);
+          this.$router.push('/games');
+        }, (err) => {
+          this.error = err;
           this.loading = false;
-        }
-      }, () => {
-        this.error = 'Error processing login';
-      });
+        });
     },
     register(e) {
       e.preventDefault();
-      // $('')
+      if (this.registering) {
+        // do something
+        const init = {
+          method: 'POST',
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+            email: this.email,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        fetch(`${APIURL}/users`, init).then((res) => {
+          if (res.status === 200) {
+            // Success
+            return res.json();
+          }
+          // Failed
+          this.error = 'Failed to create account';
+          this.loading = false;
+          return false;
+        }, () => {
+          this.error = 'Error processing registration';
+        }).then((body) => {
+          localStorage.setItem('userId', body.userId);
+          this.$router.push('/');
+        });
+      } else {
+        this.registering = true;
+      }
+    },
+    checkInvalidEmail() {
+      return !this.email.match(/^[a-zA-Z0-9.+_-]+@[a-zA-Z]+\.[a-zA-Z]+$/) &&
+          this.email;
+    },
+    checkPasswordNotSame() {
+      return (this.cpassword !== this.password) && this.cpassword && this.password;
+    },
+  },
+  route: {
+    beforeEach(to, from, next) {
+      // Check auth here
+      next();
+      return true;
     },
   },
 };
@@ -75,8 +121,6 @@ export default {
 div#login form {
   display: inline-flex;
   flex-direction: column;
-  max-width: 550px;
-  max-height: 450px;
   margin: auto;
   position: relative;
 }
@@ -92,7 +136,7 @@ div.form-group label {
   padding-bottom: 5px;
   font-size: 35px;
 }
-.inp {
+div.form-group input {
   border: 2px solid black;
   margin: auto;
   width: 100%;
@@ -105,28 +149,27 @@ div.form-group label {
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
 }
-.inp::placeholder {
+div.form-group input::placeholder {
   text-indent: 1em;
   font-size: 14pt;
   text-align: center;
 }
 .center {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-    height: 50%;
-    display:block;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  height: 50%;
+  display:block;
 }
 .btn-submit {
   border: 2px solid black;
   padding: 5px;
   margin-top: 10px;
- background-color: #4CAF50;
- border-top-left-radius: 15px;
- border-top-right-radius: 15px;
- border-bottom-right-radius: 15px;
- border-bottom-left-radius: 15px;
-
+  background-color: #4CAF50;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 div.error {
   color: red;
@@ -144,5 +187,11 @@ div.loading {
 * :focus {
   outline: none;
   box-shadow: 0 0 3pt 2pt lightblue;
+}
+input.invalid {
+  box-shadow: 0 0 3pt 2pt red;
+}
+.load {
+  opacity: .3;
 }
 </style>

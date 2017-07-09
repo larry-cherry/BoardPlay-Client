@@ -4,6 +4,9 @@
     {{error}}
   </div>
   <h1>Test {{id}}</h1>
+  <div>
+
+  </div>
 </div>
 </template>
 
@@ -11,12 +14,10 @@
 export default {
   name: 'Session',
   data() {
-    const id = this.$route ? this.$route.params.id : '123';
+    const id = this.$route.params.id;
     let session;
     let error = '';
-    if (!id) {
-      this.$route.push('/lobby');
-    }
+    // const template = { locations: [], roles: {}, numSpys: 0 };
     fetch(`sessions/${id}`).then((f) => {
       session = f;
     }, (e) => {
@@ -29,8 +30,6 @@ export default {
     canActivate() {
 
     },
-  },
-  beforeMount() {
   },
 };
 </script>
