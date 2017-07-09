@@ -4,6 +4,9 @@
     {{error}}
   </div>
   <h1>Test {{id}}</h1>
+  <div>
+
+  </div>
 </div>
 </template>
 
@@ -14,6 +17,7 @@ export default {
     const id = this.$route ? this.$route.params.id : '123';
     let session;
     let error = '';
+    // const template = { locations: [], roles: {}, numSpys: 0 };
     if (!id) {
       this.$route.push('/lobby');
     }
@@ -29,8 +33,6 @@ export default {
     canActivate() {
 
     },
-  },
-  beforeMount() {
   },
 };
 </script>

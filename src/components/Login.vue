@@ -9,11 +9,19 @@
         <label for="username">Username</label>
         <input v-model="username"  class="inp" name="username" type="text" placeholder= "Enter your username"/>
       </div>
+      <div v-if="registering" class="form-group email">
+        <label for="email">Email</label>
+        <input v-model="email" v-bind:class="{ invalid: checkInvalidEmail() }" class="inp" name="email" type="email" placeholder= "Enter your email"/>
+      </div>
       <div class="form-group password">
         <label for="password">Password</label>
-        <input v-model="password" class="inp" name="password" type="password" placeholder="Enter your password" />
+        <input v-model="password" v-bind:class="{ invalid: checkPasswordSame() }" class="inp" name="password" type="password" placeholder="Enter your password" />
       </div>
-      <button class="btn-submit" type="submit">Login</button>
+      <div v-if="registering" class="form-group confirmpassword">
+        <label for="password">Confirm Password</label>
+        <input v-model="confirmpassword" v-bind:class="{ invalid: checkPasswordSame() }" class="inp" name="confirmpassword" type="password" placeholder="Re-enter your password" />
+      </div>
+      <button v-if="!registering" class="btn-submit" type="submit">Login</button>
       <button class="btn-submit" v-on:click="register">Register</button>
     </form>
     <div v-if="loading" class="loading">
@@ -34,6 +42,9 @@ export default {
       password: '',
       error: '',
       loading: false,
+      registering: false,
+      email: '',
+      confirmpassword: '',
     };
   },
   methods: {
@@ -65,7 +76,15 @@ export default {
     },
     register(e) {
       e.preventDefault();
+      this.registering = true;
       // $('')
+    },
+    checkInvalidEmail() {
+      return !this.email.match(/^[a-zA-Z0-9.+_-]+@[a-zA-Z]+\.[a-zA-Z]+$/) &&
+          this.email;
+    },
+    checkPasswordSame() {
+      return (this.confirmpassword !== this.password) && this.password;
     },
   },
 };
@@ -75,8 +94,6 @@ export default {
 div#login form {
   display: inline-flex;
   flex-direction: column;
-  max-width: 550px;
-  max-height: 450px;
   margin: auto;
   position: relative;
 }
@@ -111,23 +128,21 @@ div.form-group label {
   text-align: center;
 }
 .center {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-    height: 50%;
-    overflow: hidden;
-    display:block;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  height: 50%;
+  display:block;
 }
 .btn-submit {
   border: 2px solid black;
   padding: 5px;
   margin-top: 10px;
- background-color: #4CAF50;
- border-top-left-radius: 15px;
- border-top-right-radius: 15px;
- border-bottom-right-radius: 15px;
- border-bottom-left-radius: 15px;
-
+  background-color: #4CAF50;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 div.error {
   color: red;
@@ -145,5 +160,8 @@ div.loading {
 * :focus {
   outline: none;
   box-shadow: 0 0 3pt 2pt lightblue;
+}
+input.invalid {
+  box-shadow: 0 0 3pt 2pt red;
 }
 </style>
