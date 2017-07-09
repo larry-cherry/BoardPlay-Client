@@ -25,7 +25,6 @@
 
 <script>
 import $ from 'jquery';
-import { router } from '../main';
 
 export default {
   name: 'login',
@@ -53,7 +52,7 @@ export default {
         if (f.code === 200) {
           // Success
           localStorage.set('loginToken', '');
-          router.go('Games');
+          this.$router.push('Games');
         } else {
           // Failed
           this.error = 'Invalid username/password';
