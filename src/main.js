@@ -13,3 +13,5 @@ new Vue({
   template: '<App/>',
   components: { App },
 });
+
+export default 'http://localhost:3000/api';

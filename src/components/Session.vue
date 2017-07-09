@@ -14,13 +14,10 @@
 export default {
   name: 'Session',
   data() {
-    const id = this.$route ? this.$route.params.id : '123';
+    const id = this.$route.params.id;
     let session;
     let error = '';
     // const template = { locations: [], roles: {}, numSpys: 0 };
-    if (!id) {
-      this.$route.push('/lobby');
-    }
     fetch(`sessions/${id}`).then((f) => {
       session = f;
     }, (e) => {

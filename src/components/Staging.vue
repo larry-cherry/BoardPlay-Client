@@ -1,17 +1,13 @@
 <template>
 <div id="lobby" class="container">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        Players
-      </tr>
-    </thead>
-    <tbody>
-    <tr v-for="player in players">
-      <td> {{ player.name }} </td>
-    </tr>
-    </tbody>
-  </table>
+  <div v-if="stage === 0">
+    <h3>Players</h3>
+    <ul>
+      <li v-for="player in players">
+        {{player.name}}
+      </li>
+    </ul>
+  </div>
 </div>
 </template>
 
@@ -29,6 +25,9 @@ export default {
       {
         name: 'Larry',
       }],
+      currentLocation: 'Library',
+      locations: [],
+      role: 'spy',
     };
   },
   methods: {},
