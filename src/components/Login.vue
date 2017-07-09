@@ -111,7 +111,6 @@ export default {
       console.log('not authed');
       next();
     }
-    return true;
   },
 };
 </script>
