@@ -7,7 +7,7 @@
       </tr>
     </thead>
     <tbody>
-    <tr v-for="player for Players">
+    <tr v-for="player in players">
       <td> {{ player.name }} </td>
     </tr>
     </tbody>
@@ -20,14 +20,14 @@ export default {
   name: 'Lobby',
   data() {
     return {
-      Players: [{
-        name:'Vasu',
+      players: [{
+        name: 'Vasu',
       },
       {
-        name:'Kenny',
+        name: 'Kenny',
       },
       {
-        name:'Larry',
+        name: 'Larry',
       }],
     };
   },
