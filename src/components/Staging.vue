@@ -1,45 +1,33 @@
 <template>
 <div id="lobby" class="container">
-  <div v-if="stage === 0">
-    <h3>Players</h3>
-    <ul>
-      <li v-for="player in players">
-        {{player.name}}
-      </li>
-    </ul>
-  </div>
-  <div v-else-if="stage === 1">
-    <ul class="list-group">
-      <li v-for="location in locations" class="list-group-item">
-        {{ location }}
-      </li>
-    </ul>
-    <button type="button" class="btn btn-default navbar-btn">Leave Game</button>
+  <h1 >Spyfall</h1>
+  </br>
+  </br>
+  <div class="row">
+    <form class="input-group" v-on:submit="join">
+      <input v-model="code" type="text" class="form-control" placeholder="Enter the code to join!">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Join!</button>
+      </span>
+    </form>
   </div>
 </div>
-</template>2
+</template>
 
 <script>
 export default {
   name: 'Lobby',
   data() {
     return {
-      stage: 1,
-      players: [{
-        name: 'Vasu',
-      },
-      {
-        name: 'Kenny',
-      },
-      {
-        name: 'Larry',
-      }],
-      currentLocation: 'Library',
-      locations: ['A', 'B', 'C'],
-      role: 'spy',
+      stage: 0,
+      code: '',
     };
   },
-  methods: {},
+  methods: {
+    join() {
+      this.$router.push(`/session/${this.code}`);
+    },
+  },
   route: {
     canActivate() {
 
@@ -49,6 +37,12 @@ export default {
 </script>
 
 <style>
+
+.input-group {
+  width: 50%;
+  margin: auto;
+  padding: 0px;
+}
 
 ul {
  list-style: none;

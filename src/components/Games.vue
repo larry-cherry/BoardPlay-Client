@@ -6,7 +6,7 @@
       <div class="panel-body">
         <h2>{{game.name}}</h2>
         <h3>{{game.type}}</h3>
-        <button class="btn">Create Game</button>
+        <button v-on:click="create(game.id)" class="btn">Create Game</button>
       </div>
     </div>
   </div>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import auth from '../auth';
 
 export default {
   name: 'Games',
@@ -22,21 +23,25 @@ export default {
       games: [{
         name: 'spyfall classic',
         type: 'spyfall',
+        id: 0,
       },
       {
         name: 'spyfall resort',
         type: 'spyfall',
+        id: 1,
       }],
     };
   },
   methods: {
 
   },
-  route: {
-    canActivate() {
-      // Check auth here
-      return true;
-    },
+  beforeRouteEnter(to, from, next) {
+    // Check auth here
+    if (auth.checkAuth()) {
+      next();
+    } else {
+      next('/');
+    }
   },
 };
 </script>

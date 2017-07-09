@@ -4,8 +4,25 @@
     {{error}}
   </div>
   <h1>Test {{id}}</h1>
-  <div>
 
+  <div class="players" v-if="stage === 0">
+    <h3>Players</h3>
+    <ul>
+      <li v-for="player in players">
+        {{player.name}}
+      </li>
+    </ul>
+  </div>
+  <div v-else-if="stage === 1">
+    <ul class="list-group">
+      <li v-for="location in locations" class="list-group-item">
+        {{ location }}
+      </li>
+    </ul>
+    <div class="buttons">
+      <button type="button" class="btn btn-default navbar-btn">End Game</button>
+      <button type="button" class="btn btn-default navbar-btn">Leave Game</button>
+    </div>
   </div>
 </div>
 </template>
@@ -15,6 +32,15 @@ export default {
   name: 'Session',
   data() {
     const id = this.$route.params.id;
+    const stage = 0;
+    const players = [{
+      name: 'Kenny',
+      id: 0,
+    },
+    {
+      name: 'Vasu',
+      id: 1,
+    }];
     let session;
     let error = '';
     // const template = { locations: [], roles: {}, numSpys: 0 };
@@ -23,7 +49,7 @@ export default {
     }, (e) => {
       error = e;
     });
-    return { error, session, id };
+    return { error, session, id, stage, players };
   },
   methods: {},
   route: {
@@ -35,5 +61,16 @@ export default {
 </script>
 
 <style>
-
+div.buttons {
+  display: inline-block;
+}
+div.buttons button {
+  margin-left: 1em;
+  margin-right: 1
+}
+div.players ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 </style>
