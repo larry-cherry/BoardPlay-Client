@@ -5,6 +5,10 @@
       {{error}}
     </div>
     <form v-on:submit="login" id="form">
+    <div class="form-group hidden">
+      <label for="email">E-mail</label>
+      <input v-model="email"  class="inp" name="email" type="text" placeholder= "Enter your email"/>
+    </div>
       <div class="form-group">
         <label for="username">Username</label>
         <input v-model="username"  class="inp" name="username" type="text" placeholder= "Enter your username"/>
@@ -72,6 +76,9 @@ export default {
 </script>
 
 <style scoped>
+.hidden{
+  display:none;
+}
 div#login form {
   display: inline-flex;
   flex-direction: column;
@@ -110,7 +117,6 @@ div.form-group label {
     margin: auto;
     width: 50%;
     padding: 10px;
-    height: 50%;
     overflow: hidden;
     display:block;
 }
@@ -126,8 +132,6 @@ div.form-group label {
 
 }
 form#form {
-  max-width: 550px;
-  max-height: 450px;
   margin: auto;
   position: relative;
 }

@@ -1,6 +1,17 @@
 <template>
-<div id="lobby">
-
+<div id="lobby" class="container">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        Players
+      </tr>
+    </thead>
+    <tbody>
+    <tr v-for="player for Players">
+      <td> {{ player.name }} </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 </template>
 
@@ -8,7 +19,17 @@
 export default {
   name: 'Lobby',
   data() {
-    return {};
+    return {
+      Players: [{
+        name:'Vasu',
+      },
+      {
+        name:'Kenny',
+      },
+      {
+        name:'Larry',
+      }],
+    };
   },
   methods: {},
   route: {
