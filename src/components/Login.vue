@@ -4,12 +4,12 @@
     <div v-if="error" class="error">
       {{error}}
     </div>
-    <form v-on:submit="login" id="form">
-      <div class="form-group">
+    <form v-on:submit="login">
+      <div class="form-group username">
         <label for="username">Username</label>
         <input v-model="username"  class="inp" name="username" type="text" placeholder= "Enter your username"/>
       </div>
-      <div class="form-group">
+      <div class="form-group password">
         <label for="password">Password</label>
         <input v-model="password" class="inp" name="password" type="password" placeholder="Enter your password" />
       </div>
@@ -65,6 +65,7 @@ export default {
     },
     register(e) {
       e.preventDefault();
+      // $('')
     },
   },
 };
@@ -74,6 +75,10 @@ export default {
 div#login form {
   display: inline-flex;
   flex-direction: column;
+  max-width: 550px;
+  max-height: 450px;
+  margin: auto;
+  position: relative;
 }
 div#login h1 {
   padding-bottom: .2em;
@@ -123,12 +128,6 @@ div.form-group label {
  border-bottom-right-radius: 15px;
  border-bottom-left-radius: 15px;
 
-}
-form#form {
-  max-width: 550px;
-  max-height: 450px;
-  margin: auto;
-  position: relative;
 }
 div.error {
   color: red;
