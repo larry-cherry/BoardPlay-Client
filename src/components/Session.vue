@@ -32,6 +32,15 @@ export default {
   name: 'Session',
   data() {
     const id = this.$route.params.id;
+    const stage = 0;
+    const players = [{
+      name: 'Kenny',
+      id: 0,
+    },
+    {
+      name: 'Vasu',
+      id: 1,
+    }];
     let session;
     let error = '';
     // const template = { locations: [], roles: {}, numSpys: 0 };
@@ -40,7 +49,7 @@ export default {
     }, (e) => {
       error = e;
     });
-    return { error, session, id };
+    return { error, session, id, stage, players };
   },
   methods: {},
   route: {
@@ -53,6 +62,15 @@ export default {
 
 <style>
 div.buttons {
-  
+  display: inline-block;
+}
+div.buttons button {
+  margin-left: 1em;
+  margin-right: 1
+}
+div.players ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 </style>
