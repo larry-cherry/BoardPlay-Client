@@ -1,21 +1,15 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <!--<img src="./assets/logo.png">-->
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-// import Hello from './components/Hello';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
-import Login from './components/Login';
 
 export default {
-  name: 'app',
-  components: {
-    Login,
-  },
 };
 </script>
 

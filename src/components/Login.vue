@@ -1,5 +1,5 @@
 <template>
-  <div id="login" class = "container">
+  <div id="login" class="container">
     <h1>Login</h1>
     <div v-if="error" class="error">
       {{error}}
@@ -13,8 +13,8 @@
         <label for="password">Password</label>
         <input v-model="password" class="inp" name="password" type="password" placeholder="Enter your password" />
       </div>
-      </br>
-      <button>Login</button>
+      <button class="btn-submit" type="submit">Login</button>
+      <button class="btn-submit" v-on:click="register">Register</button>
     </form>
     <div v-if="loading" class="loading">
       <i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>
@@ -25,6 +25,7 @@
 
 <script>
 import $ from 'jquery';
+import { router } from '../main';
 
 export default {
   name: 'login',
@@ -51,14 +52,20 @@ export default {
       fetch('/users/login/', init).then((f) => {
         if (f.code === 200) {
           // Success
+          localStorage.set('loginToken', '');
+          router.go('Games');
         } else {
           // Failed
           this.error = 'Invalid username/password';
           $('div#app *:not(.loading)').css('opacity', '1');
+          this.loading = false;
         }
       }, () => {
         this.error = 'Error processing login';
       });
+    },
+    register(e) {
+      e.preventDefault();
     },
   },
 };
@@ -81,7 +88,7 @@ div.form-group label {
   padding-bottom: 5px;
   font-size: 35px;
 }
-.inp{
+.inp {
   border: 2px solid black;
   margin: auto;
   width: 100%;
@@ -94,6 +101,11 @@ div.form-group label {
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
 }
+.inp::placeholder {
+  text-indent: 1em;
+  font-size: 14pt;
+  text-align: center;
+}
 .center {
     margin: auto;
     width: 50%;
@@ -102,15 +114,15 @@ div.form-group label {
     overflow: hidden;
     display:block;
 }
-.btn-submit{
+.btn-submit {
   border: 2px solid black;
   padding: 5px;
   margin-top: 10px;
-   background-color: #4CAF50;
-   border-top-left-radius: 15px;
-   border-top-right-radius: 15px;
-   border-bottom-right-radius: 15px;
-   border-bottom-left-radius: 15px;
+ background-color: #4CAF50;
+ border-top-left-radius: 15px;
+ border-top-right-radius: 15px;
+ border-bottom-right-radius: 15px;
+ border-bottom-left-radius: 15px;
 
 }
 form#form {
@@ -118,9 +130,7 @@ form#form {
   max-height: 450px;
   margin: auto;
   position: relative;
-
 }
-
 div.error {
   color: red;
   font-size: 2em;
@@ -133,5 +143,9 @@ div.loading {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+* :focus {
+  outline: none;
+  box-shadow: 0 0 3pt 2pt lightblue;
 }
 </style>
