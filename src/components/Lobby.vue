@@ -1,13 +1,14 @@
-  <template>
+<template>
 <div id="lobby" class="container">
-  <table v-if: class="table table-hover">
+
+  <table class="table table-hover">
     <thead>
       <tr>
         Players
       </tr>
     </thead>
     <tbody>
-    <tr v-for="player in players">
+    <tr v-for="player in Players">
       <td> {{ player.name }} </td>
     </tr>
     </tbody>
@@ -20,8 +21,7 @@ export default {
   name: 'Lobby',
   data() {
     return {
-      stage: '',
-      players: [{
+      Players: [{
         name: 'Vasu',
       },
       {

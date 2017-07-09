@@ -115,7 +115,6 @@ div.form-group label {
     width: 50%;
     padding: 10px;
     height: 50%;
-    overflow: hidden;
     display:block;
 }
 .btn-submit {
