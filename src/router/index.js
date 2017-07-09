@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Login from '@/components/Login';
 import Games from '@/components/Games';
 import Session from '@/components/Session';
-import Lobby from '@/components/Lobby';
+import Staging from '@/components/Staging';
 
 Vue.use(Router);
 
@@ -25,9 +25,9 @@ export default new Router({
       component: Session,
     },
     {
-      path: '/lobby',
-      name: 'Lobby',
-      component: Lobby,
+      path: '/staging',
+      name: 'Staging',
+      component: Staging,
     },
   ],
 });
