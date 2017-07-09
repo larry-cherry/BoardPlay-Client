@@ -7,6 +7,7 @@
         <h2>{{game.name}}</h2>
         <h3>{{game.type}}</h3>
         <button v-on:click="create(game.id)" class="btn">Create Game</button>
+        <button v-on:click="join(game.id)" class="btn">Join Game</button>
       </div>
     </div>
   </div>
@@ -15,25 +16,36 @@
 
 <script>
 import auth from '../auth';
+// import APIURL from '../main';
 
 export default {
   name: 'Games',
   data() {
-    return {
-      games: [{
-        name: 'spyfall classic',
-        type: 'spyfall',
-        id: 0,
-      },
-      {
-        name: 'spyfall resort',
-        type: 'spyfall',
-        id: 1,
-      }],
-    };
+    const games = [{
+      name: 'spyfall classic',
+      type: 'spyfall',
+      id: 0,
+    },
+    {
+      name: 'spyfall resort',
+      type: 'spyfall',
+      id: 1,
+    }];
+    return { games };
   },
   methods: {
-
+    create() {
+      // const init = {
+      //   method: 'POST',
+      //   body: JSON.stringify(this.games[gameid]),
+      //   headers: { 'Content-Type': 'application/json' },
+      // };
+      // fetch(`${APIURL}/session/create`, init).then();
+      this.$router.push('session/AF24D');
+    },
+    join() {
+      this.$router.push('staging/');
+    },
   },
   beforeRouteEnter(to, from, next) {
     // Check auth here

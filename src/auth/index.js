@@ -65,7 +65,6 @@ export default {
   },
   checkAuth() {
     const token = localStorage.getItem('accessToken');
-    console.log(token);
     if (token) {
       this.user.authenticated = true;
     } else {

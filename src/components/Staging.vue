@@ -7,7 +7,7 @@
     <form class="input-group" v-on:submit="join">
       <input v-model="code" type="text" class="form-control" placeholder="Enter the code to join!">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Join!</button>
+        <button class="btn btn-default" type="submit">Join Game</button>
       </span>
     </form>
   </div>
