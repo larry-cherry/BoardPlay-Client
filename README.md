@@ -2,6 +2,10 @@
 
 > Social games
 
+# Boardplay Server
+
+* [Server](https://github.com/larry-cherry/BoardPlay.git)
+
 ## Build Setup
 
 # install dependencies
